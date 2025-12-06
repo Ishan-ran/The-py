@@ -3,11 +3,241 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>GhostLink</title>
+  <title>Hydropower - Energy Education</title>
+  
+  <!-- EXTERNAL SCRIPTS FOR GHOSTLINK -->
+  <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+
   <style>
-    /* --- CORE THEME --- */
-    body { margin: 0; background: #ece5dd; font-family: sans-serif; height: 100vh; height: 100dvh; display: flex; flex-direction: column; overflow: hidden; user-select: none; -webkit-user-select: none; }
+    /* =========================================
+       MODE SWITCHING UTILITIES
+       ========================================= */
+    body {
+        transition: background 0.3s ease;
+    }
+
+    /* Hide GhostLink elements by default */
+    .ghost-hidden {
+        display: none !important;
+    }
+
+    /* =========================================
+       FAKE EDUCATIONAL SITE STYLES (Default)
+       ========================================= */
+    body.edu-mode {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f9f9f9;
+        color: #222;
+        margin: 0;
+        overflow-y: scroll; /* Allow scrolling for the fake site */
+        line-height: 1.6;
+    }
+
+    .edu-header {
+        background-color: #fff;
+        border-bottom: 3px solid #b30000; /* Academic Red */
+        padding: 15px 5%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+
+    .edu-logo {
+        font-size: 24px;
+        font-weight: bold;
+        color: #b30000;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .edu-nav a {
+        color: #555;
+        text-decoration: none;
+        margin-left: 20px;
+        font-size: 14px;
+        font-weight: 500;
+    }
+
+    .edu-container {
+        max-width: 1100px;
+        margin: 30px auto;
+        background: #fff;
+        padding: 50px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.03);
+        display: flex;
+        gap: 40px;
+        min-height: 100vh;
+    }
+
+    .edu-sidebar {
+        width: 220px;
+        border-right: 1px solid #eee;
+        padding-right: 20px;
+        flex-shrink: 0;
+        position: sticky;
+        top: 100px;
+        height: fit-content;
+    }
+
+    .edu-sidebar h4 {
+        margin-top: 0;
+        color: #b30000;
+        font-size: 16px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 15px;
+    }
+
+    .edu-sidebar ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .edu-sidebar li {
+        margin-bottom: 12px;
+        border-bottom: 1px solid #f5f5f5;
+        padding-bottom: 8px;
+    }
+
+    .edu-sidebar a {
+        text-decoration: none;
+        color: #0056b3;
+        font-size: 14px;
+        transition: color 0.2s;
+    }
     
+    .edu-sidebar a:hover {
+        color: #b30000;
+        text-decoration: underline;
+    }
+
+    .edu-main {
+        flex: 1;
+        max-width: 800px;
+    }
+
+    .edu-title {
+        font-size: 38px;
+        margin-top: 0;
+        border-bottom: 1px solid #ccc;
+        padding-bottom: 15px;
+        margin-bottom: 25px;
+        color: #111;
+        font-family: 'Georgia', serif;
+    }
+
+    .edu-content h2 {
+        font-size: 24px;
+        color: #b30000;
+        margin-top: 40px;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 8px;
+    }
+    
+    .edu-content h3 {
+        font-size: 20px;
+        color: #333;
+        margin-top: 30px;
+        font-weight: 600;
+    }
+
+    .edu-content p {
+        margin-bottom: 18px;
+        text-align: justify;
+        font-size: 16px;
+        color: #333;
+    }
+    
+    .edu-content ul {
+        margin-bottom: 20px;
+        padding-left: 20px;
+    }
+    
+    .edu-content li {
+        margin-bottom: 8px;
+    }
+
+    .edu-data-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 30px 0;
+        font-size: 14px;
+    }
+    
+    .edu-data-table th, .edu-data-table td {
+        border: 1px solid #ddd;
+        padding: 10px;
+        text-align: left;
+    }
+    
+    .edu-data-table th {
+        background-color: #f2f2f2;
+        color: #b30000;
+    }
+    
+    .math-block {
+        background: #f5f5f5;
+        padding: 15px;
+        border-left: 4px solid #b30000;
+        font-family: 'Courier New', monospace;
+        margin: 20px 0;
+    }
+
+    .edu-footer {
+        background: #333;
+        color: #fff;
+        padding: 60px 0;
+        margin-top: 50px;
+        text-align: center;
+        border-top: 5px solid #b30000;
+    }
+
+    .citation-trigger-btn {
+        background: #444;
+        border: 1px solid #666;
+        color: #aaa;
+        padding: 10px 20px;
+        cursor: pointer;
+        border-radius: 4px;
+        font-size: 12px;
+        transition: all 0.2s;
+        margin-top: 20px;
+    }
+
+    .citation-trigger-btn:hover {
+        background: #555;
+        color: #fff;
+    }
+
+    /* =========================================
+       GHOSTLINK STYLES (Copied & Scoped)
+       ========================================= */
+    body.ghost-mode {
+        margin: 0; 
+        background: #ece5dd; 
+        font-family: sans-serif; 
+        height: 100vh; 
+        height: 100dvh; 
+        display: flex; 
+        flex-direction: column; 
+        overflow: hidden; 
+        user-select: none; 
+        -webkit-user-select: none; 
+    }
+
+    /* Ensure GhostLink containers fill screen when active */
+    #ghostlink-root {
+        width: 100%;
+        height: 100%;
+        position: relative;
+    }
+
     /* --- LOGIN SCREEN --- */
     #lock-screen { 
       position: fixed; 
@@ -155,108 +385,284 @@
     @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
   </style>
 </head>
-<body>
+<body class="edu-mode">
 
-  <!-- LOGIN SCREEN -->
-  <div id="lock-screen">
-    <div class="lock-logo">🔒</div>
-    <h2 style="color:#444; margin-bottom:20px;">GhostLink</h2>
-    <input type="text" id="username" class="pass" placeholder="Username" autocomplete="off">
-    <input type="password" id="pass" class="pass" placeholder="Password" autocomplete="off">
-    <button class="btn" onclick="attemptLogin()">Enter</button>
-    <p id="error" style="color:red; margin-top:10px; opacity:0; font-size:14px;">Access Denied</p>
-  </div>
+  <!-- =========================================
+       FAKE EDUCATIONAL SITE CONTENT
+       ========================================= -->
+  <div id="fake-site-root">
+    <header class="edu-header">
+      <a href="#" class="edu-logo">Energy Education</a>
+      <nav class="edu-nav">
+        <a href="#">Energy Sources</a>
+        <a href="#">Electricity</a>
+        <a href="#">Environment</a>
+        <a href="#">History</a>
+      </nav>
+    </header>
 
-  <!-- MATRIX ANIMATION -->
-  <div id="matrix-screen">
-    <canvas id="matrix-canvas"></canvas>
-    <div id="matrix-text">Welcome, Lucifer.</div>
-  </div>
+    <div class="edu-container">
+      <aside class="edu-sidebar">
+        <h4>Contents</h4>
+        <ul>
+          <li><a href="#">Introduction</a></li>
+          <li><a href="#">Energy Transformations</a></li>
+          <li><a href="#">Hydroelectric Power Plants</a></li>
+          <li><a href="#">World Hydroelectric Capacity</a></li>
+          <li><a href="#">Environmental Impacts</a></li>
+          <li><a href="#">References</a></li>
+        </ul>
+        <br>
+        <h4>Related</h4>
+        <ul>
+          <li><a href="#">Solar Power</a></li>
+          <li><a href="#">Wind Energy</a></li>
+          <li><a href="#">Nuclear</a></li>
+          <li><a href="#">Geothermal</a></li>
+          <li><a href="#">Tidal Power</a></li>
+        </ul>
+      </aside>
 
-  <!-- SYLUS ANIMATION -->
-  <div id="sylus-screen">
-    <div id="tenor-container" style="width:100%; height:100%; position:absolute; top:0; left:0; z-index:20000; opacity:0.6;"></div>
-    <div id="sylus-text">Closer. I want to hear your heartbeat sync with mine.</div>
-  </div>
+      <main class="edu-main">
+        <h1 class="edu-title">Hydropower</h1>
+        <div class="edu-content">
+          <p><strong>Hydropower</strong>, or hydroelectric power, is a renewable source of energy that generates power by using a dam or diversion structure to alter the natural flow of a river or other body of water. Hydropower relies on the endless, constantly recharging system of the water cycle to produce electricity, using a fuel—water—that is not reduced or used up in the process. It is one of the oldest and largest sources of renewable energy, accounting for approximately 16% of total electricity production worldwide.</p>
+          
+          <p>There are many types of hydropower facilities, they are all powered by the kinetic energy of flowing water as it moves downstream. Turbines and generators convert the energy into electricity, which is then fed into the electrical grid to be used in homes, businesses, and by industry.</p>
 
-  <!-- GOOFY ANIMATION -->
-  <div id="goofy-screen">
-    <div id="goofy-text"></div>
-  </div>
+          <h2>Energy Transformations</h2>
+          <p>The generation of electricity from hydropower relies on a specific sequence of energy transformations. Water stored behind a dam possesses a high amount of <strong>gravitational potential energy</strong> due to its height (head) relative to the turbine below. As the water is released and flows down through the penstock, this potential energy is converted into <strong>kinetic energy</strong>.</p>
+          
+          <div class="math-block">
+            PE = mgh <br>
+            KE = 1/2 mv²
+          </div>
+          
+          <p>The moving water strikes the blades of a turbine, causing it to spin. The turbine is connected by a shaft to a generator. As the turbine spins, it turns the rotor inside the generator. This action converts the mechanical energy of the spinning turbine into <strong>electrical energy</strong> through electromagnetic induction. The amount of available power is proportional to the product of flow rate and head:</p>
 
-  <!-- APP: CONTACT LIST -->
-  <div id="contact-screen">
-    <div class="app-header">
-      <div class="header-content">
-        <div style="display:flex;align-items:center;gap:10px;">
-            <div class="self-avatar-small" id="self-avatar-display">👤</div>
-            <h1>Chats <button class="edit-self-btn" onclick="openProfileModal()" title="Edit Profile">✎</button></h1>
+          <div class="math-block">
+            P = ρ * g * h * q
+          </div>
+          
+          <p>Where <em>P</em> is power, <em>ρ</em> is the density of water, <em>g</em> is gravitational acceleration, <em>h</em> is the head (height), and <em>q</em> is the flow rate.</p>
+
+          <h2>Hydroelectric Power Plants</h2>
+          <p>Hydroelectric power plants are typically categorized by their method of operation and storage capacity. The three main types are:</p>
+          
+          <ul>
+            <li><strong>Impoundment (Dam):</strong> The most common type of hydroelectric facility. It is a large system that uses a dam to store river water in a reservoir. Water released from the reservoir flows through a turbine, spinning it, which in turn activates a generator to produce electricity. The water may be released either to meet changing electricity needs or to maintain a constant reservoir level.</li>
+            <li><strong>Diversion (Run-of-river):</strong> A diversion facility channels a portion of a river through a canal or penstock. It may not require the use of a dam and usually has no water storage. This makes it less disruptive to the river's natural flow but also more dependent on seasonal water levels.</li>
+            <li><strong>Pumped Storage:</strong> This works like a battery. It stores energy by pumping water from a lower reservoir to an upper reservoir when demand for electricity is low. During periods of high electrical demand, the water is released back to the lower reservoir to generate electricity.</li>
+          </ul>
+
+          <h2>World Hydroelectric Capacity</h2>
+          <p>Hydropower is the most widely used form of renewable energy. China is the largest producer of hydroelectricity, followed by Brazil, Canada, the United States, and Russia. Approximately two-thirds of the economically feasible potential for hydro power remains undeveloped, with a large portion of this potential located in Latin America, Central Africa, India, and China.</p>
+
+          <table class="edu-data-table">
+            <thead>
+              <tr>
+                <th>Country</th>
+                <th>Installed Capacity (GW)</th>
+                <th>Share of Total Generation</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>China</td>
+                <td>370.2</td>
+                <td>17%</td>
+              </tr>
+              <tr>
+                <td>Brazil</td>
+                <td>109.3</td>
+                <td>65%</td>
+              </tr>
+              <tr>
+                <td>Canada</td>
+                <td>81.0</td>
+                <td>60%</td>
+              </tr>
+              <tr>
+                <td>United States</td>
+                <td>79.8</td>
+                <td>7%</td>
+              </tr>
+              <tr>
+                <td>Russia</td>
+                <td>49.9</td>
+                <td>17%</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <p>The <strong>Three Gorges Dam</strong> in China is the world's largest power station in terms of installed capacity (22,500 MW). The Itaipu Dam, located on the border between Brazil and Paraguay, is the second largest.</p>
+
+          <h2>Environmental Impacts</h2>
+          <p>While hydropower is a clean fuel source in that it does not emit air pollutants during operation, it is not without environmental costs. Large reservoirs can have significant impacts on river ecosystems.</p>
+          
+          <h3>Land Use and Displacement</h3>
+          <p>Large reservoirs flood vast areas of land, which can destroy forests, wildlife habitat, agricultural land, and scenic lands. In many cases, entire communities have been displaced by the construction of large dams. For example, the Three Gorges Dam displaced over 1.2 million people.</p>
+          
+          <h3>Wildlife Impacts</h3>
+          <p>Dams can obstruct fish migration, affecting populations of salmon, steelhead, and other migratory species. Turbines can also injure or kill fish that pass through them. Changes in water flow and temperature downstream can degrade water quality and harm native aquatic plants and animals.</p>
+          
+          <h3>Greenhouse Gas Emissions</h3>
+          <p>Surprisingly, reservoirs can be sources of greenhouse gases. Plant material in flooded areas decays in an anaerobic environment, releasing methane, a potent greenhouse gas. This effect is most pronounced in tropical regions where vegetation is dense and temperatures are high.</p>
         </div>
-        <span style="font-size:14px; opacity:0.8;" id="header-role">Guest</span>
-      </div>
+      </main>
     </div>
-    <div class="contact-list" id="contact-list-container"></div>
-    <button class="fab" onclick="handleAddButton()">+</button>
+
+    <footer class="edu-footer">
+      <p>&copy; 2024 Energy Education Encyclopedia. All rights reserved.</p>
+      <p>Department of Physics & Astronomy</p>
+      <p>University of Calgary</p>
+      
+      <!-- THE TRIGGER BUTTON -->
+      <button id="citation-btn" class="citation-trigger-btn">Get Citation / Chat with AI</button>
+    </footer>
   </div>
 
-  <!-- APP: CHAT ROOM -->
-  <div id="chat-screen">
-    <div class="chat-header">
-      <button class="back-btn" onclick="goBack()">←</button>
-      <div class="header-profile">
-        <div class="header-avatar" id="chat-avatar">👤</div>
-        <div class="header-info">
-          <h4 id="chat-name">Name</h4>
+
+  <!-- =========================================
+       GHOSTLINK APP CONTENT (Hidden Initially)
+       ========================================= -->
+  <div id="ghostlink-root" class="ghost-hidden">
+    <!-- LOGIN SCREEN -->
+    <div id="lock-screen">
+        <div class="lock-logo">🔒</div>
+        <h2 style="color:#444; margin-bottom:20px;">GhostLink</h2>
+        <input type="text" id="username" class="pass" placeholder="Username" autocomplete="off">
+        <input type="password" id="pass" class="pass" placeholder="Password" autocomplete="off">
+        <button class="btn" onclick="attemptLogin()">Enter</button>
+        <p id="error" style="color:red; margin-top:10px; opacity:0; font-size:14px;">Access Denied</p>
+    </div>
+
+    <!-- MATRIX ANIMATION -->
+    <div id="matrix-screen">
+        <canvas id="matrix-canvas"></canvas>
+        <div id="matrix-text">Welcome, Lucifer.</div>
+    </div>
+
+    <!-- SYLUS ANIMATION -->
+    <div id="sylus-screen">
+        <div id="tenor-container" style="width:100%; height:100%; position:absolute; top:0; left:0; z-index:20000; opacity:0.6;"></div>
+        <div id="sylus-text">Closer. I want to hear your heartbeat sync with mine.</div>
+    </div>
+
+    <!-- GOOFY ANIMATION -->
+    <div id="goofy-screen">
+        <div id="goofy-text"></div>
+    </div>
+
+    <!-- APP: CONTACT LIST -->
+    <div id="contact-screen">
+        <div class="app-header">
+        <div class="header-content">
+            <div style="display:flex;align-items:center;gap:10px;">
+                <div class="self-avatar-small" id="self-avatar-display">👤</div>
+                <h1>Chats <button class="edit-self-btn" onclick="openProfileModal()" title="Edit Profile">✎</button></h1>
+            </div>
+            <span style="font-size:14px; opacity:0.8;" id="header-role">Guest</span>
         </div>
-      </div>
-      <button class="action-btn" onclick="openWallpaperModal()">🖼️</button>
-    </div>
-    <div id="messages"></div>
-    
-    <div id="reply-preview">
-      <div id="reply-info">
-        <div id="reply-to-name">Replying...</div>
-        <div id="reply-to-text"></div>
-      </div>
-      <button id="cancel-reply" onclick="cancelReply()">✖</button>
+        </div>
+        <div class="contact-list" id="contact-list-container"></div>
+        <button class="fab" onclick="handleAddButton()">+</button>
     </div>
 
-    <div id="input-area">
-      <button class="icon-btn" onclick="document.getElementById('imgInput').click()">📷</button>
-      <input type="file" id="imgInput" accept="image/*" onchange="handleImageUpload(this)">
-      <textarea id="txt" placeholder="Message" rows="1"></textarea>
-      <button class="icon-btn" id="mic-btn" onclick="toggleRecording()">🎙️</button>
-      <button class="icon-btn send-btn" onclick="send()">➤</button>
+    <!-- APP: CHAT ROOM -->
+    <div id="chat-screen">
+        <div class="chat-header">
+        <button class="back-btn" onclick="goBack()">←</button>
+        <div class="header-profile">
+            <div class="header-avatar" id="chat-avatar">👤</div>
+            <div class="header-info">
+            <h4 id="chat-name">Name</h4>
+            </div>
+        </div>
+        <button class="action-btn" onclick="openWallpaperModal()">🖼️</button>
+        </div>
+        <div id="messages"></div>
+        
+        <div id="reply-preview">
+        <div id="reply-info">
+            <div id="reply-to-name">Replying...</div>
+            <div id="reply-to-text"></div>
+        </div>
+        <button id="cancel-reply" onclick="cancelReply()">✖</button>
+        </div>
+
+        <div id="input-area">
+        <button class="icon-btn" onclick="document.getElementById('imgInput').click()">📷</button>
+        <input type="file" id="imgInput" accept="image/*" onchange="handleImageUpload(this)">
+        <textarea id="txt" placeholder="Message" rows="1"></textarea>
+        <button class="icon-btn" id="mic-btn" onclick="toggleRecording()">🎙️</button>
+        <button class="icon-btn send-btn" onclick="send()">➤</button>
+        </div>
+    </div>
+
+    <!-- MODALS -->
+    <div id="wp-modal">
+        <div class="wp-card">
+        <h3>Wallpaper</h3>
+        <button class="wp-btn primary" onclick="document.getElementById('wallpaperInput').click()">Upload</button>
+        <button class="wp-btn" onclick="useLastPhoto()">Use Last Photo</button>
+        <button class="wp-btn" onclick="resetWallpaper()">Reset</button>
+        <button class="wp-btn close" onclick="closeWallpaperModal()">Cancel</button>
+        <input type="file" id="wallpaperInput" accept="image/*" onchange="handleWallpaperUpload(this)">
+        </div>
+    </div>
+
+    <div id="profile-modal">
+        <div class="wp-card">
+        <h3>Edit Profile</h3>
+        <button class="wp-btn primary" onclick="renameSelf()">Change Name</button>
+        <button class="wp-btn" onclick="document.getElementById('profilePicInput').click()">Change Profile Pic</button>
+        <input type="file" id="profilePicInput" accept="image/*" onchange="handleProfilePicUpload(this)">
+        <button class="wp-btn danger" onclick="changePassword()">Change Password</button>
+        <button class="wp-btn close" onclick="document.getElementById('profile-modal').style.display = 'none'">Cancel</button>
+        </div>
     </div>
   </div>
 
-  <!-- MODALS -->
-  <div id="wp-modal">
-    <div class="wp-card">
-      <h3>Wallpaper</h3>
-      <button class="wp-btn primary" onclick="document.getElementById('wallpaperInput').click()">Upload</button>
-      <button class="wp-btn" onclick="useLastPhoto()">Use Last Photo</button>
-      <button class="wp-btn" onclick="resetWallpaper()">Reset</button>
-      <button class="wp-btn close" onclick="closeWallpaperModal()">Cancel</button>
-      <input type="file" id="wallpaperInput" accept="image/*" onchange="handleWallpaperUpload(this)">
-    </div>
-  </div>
 
-  <div id="profile-modal">
-    <div class="wp-card">
-      <h3>Edit Profile</h3>
-      <button class="wp-btn primary" onclick="renameSelf()">Change Name</button>
-      <button class="wp-btn" onclick="document.getElementById('profilePicInput').click()">Change Profile Pic</button>
-      <input type="file" id="profilePicInput" accept="image/*" onchange="handleProfilePicUpload(this)">
-      <button class="wp-btn danger" onclick="changePassword()">Change Password</button>
-      <button class="wp-btn close" onclick="document.getElementById('profile-modal').style.display = 'none'">Cancel</button>
-    </div>
-  </div>
-
-  <!-- TENOR SCRIPT -->
-  <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
-
+  <!-- =========================================
+       GHOSTLINK JS LOGIC
+       ========================================= -->
   <script type="module">
+    // --- TRIGGER LOGIC ---
+    let clickCount = 0;
+    let clickTimer = null;
+    const triggerBtn = document.getElementById('citation-btn');
+    const fakeSite = document.getElementById('fake-site-root');
+    const ghostApp = document.getElementById('ghostlink-root');
+
+    triggerBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        clickCount++;
+        
+        clearTimeout(clickTimer);
+
+        if (clickCount === 3) {
+            // ACTIVATE GHOSTLINK
+            fakeSite.style.display = 'none';
+            ghostApp.classList.remove('ghost-hidden');
+            document.body.classList.remove('edu-mode');
+            document.body.classList.add('ghost-mode');
+            clickCount = 0;
+            // Focus login for better UX
+            setTimeout(() => document.getElementById('username').focus(), 100);
+        } else {
+            // Wait to see if more clicks come, if not, do standard action
+            clickTimer = setTimeout(() => {
+                if (clickCount === 1) {
+                    window.open('https://gemini.google.com/', '_blank');
+                }
+                clickCount = 0;
+            }, 400); // 400ms threshold for triple click
+        }
+    });
+
+    // --- GHOSTLINK ORIGINAL CODE ---
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
     import { getAuth, signInWithEmailAndPassword, signInAnonymously } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
     import { getFirestore, collection, addDoc, query, getDoc, getDocs, orderBy, onSnapshot, serverTimestamp, deleteDoc, doc, setDoc, updateDoc, deleteField, where } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
